@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Output files
+*.csv
+*.xlsx
+*.xls
+
+# Checkpoint and state files
+scraper_checkpoint.json
+retry_queue.json
+
+# Logs
+*.log
+debug.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Chromium browser (keep in repo but ignore debug logs)
+chromium
+chromium/debug.log
+chromium/First Run
+
+# Environment variables
+.env
+.env.local
