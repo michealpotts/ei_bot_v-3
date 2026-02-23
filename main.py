@@ -2,7 +2,9 @@ import asyncio
 import math
 import sys
 import os
+import threading
 from pathlib import Path
+from typing import Optional
 from playwright.async_api import async_playwright
 from dotenv import load_dotenv
 
@@ -28,7 +30,7 @@ chromium_path = base_path / "chromium" / "chrome.exe"
 FIXED_DELAY = 1.0
 
 
-async def run_scraper(email, password, headless=False):
+async def run_scraper(email, password, headless=False, stop_event: Optional[threading.Event] = None):
     checkpoint_manager = CheckpointManager()
     
     try:
@@ -64,6 +66,9 @@ async def run_scraper(email, password, headless=False):
             
             total_pages = max(1, math.ceil(total_count))
             for page_num in range(start_page, total_pages + 1):
+                if stop_event and stop_event.is_set():
+                    print("[INFO] Stop requested. Saving progress and exiting...")
+                    break
                 projects = await get_project(client, page_num)
                 
                 if projects is None:
@@ -177,4 +182,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "--ui":
+        from ui import run_ui
+        run_ui()
+    else:
+        main()
