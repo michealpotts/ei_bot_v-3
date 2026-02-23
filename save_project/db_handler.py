@@ -7,7 +7,8 @@ from dotenv import load_dotenv
 
 logger = logging.getLogger(__name__)
 
-load_dotenv()
+# support UTF-8 BOM in .env files
+load_dotenv(encoding='utf-8-sig')
 
 class DatabaseHandler:
     def __init__(self):
@@ -19,6 +20,9 @@ class DatabaseHandler:
         self.user = os.getenv("DB_USER", "")
         self.password = os.getenv("DB_PASSWORD", "")
         self.ssl_mode = os.getenv("DB_SSL_MODE", "require")
+        # debug: log connection parameters (hide password)
+        logger.debug("DB connection params: host=%s port=%s db=%s user=%s sslmode=%s",
+                     self.host, self.port, self.database, self.user, self.ssl_mode)
     
     async def connect(self):
         """Create database connection"""

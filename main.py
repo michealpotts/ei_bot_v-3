@@ -16,7 +16,8 @@ from checkpoint import CheckpointManager
 
 from save_project.db_handler import get_db_handler, close_db_handler
 
-load_dotenv()
+# load .env with utf-8-sig to strip BOM if present
+load_dotenv(encoding='utf-8-sig')
 
 if getattr(sys, 'frozen', False):
     base_path = Path(sys._MEIPASS)
